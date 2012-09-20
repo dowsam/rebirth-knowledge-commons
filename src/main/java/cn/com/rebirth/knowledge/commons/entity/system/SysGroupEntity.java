@@ -4,46 +4,28 @@
  */
 package cn.com.rebirth.knowledge.commons.entity.system;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
+import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
+import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.*;
 
-import cn.com.rebirth.commons.search.annotation.AbstractSearchProperty;
-import cn.com.rebirth.commons.utils.CollectionMapperUtils;
-import cn.com.rebirth.commons.utils.ConvertUtils;
-import cn.com.rebirth.knowledge.commons.dhtmlx.ColumnDataSets;
+import cn.com.rebirth.commons.search.annotation.*;
+import cn.com.rebirth.commons.utils.*;
+import cn.com.rebirth.knowledge.commons.dhtmlx.*;
 import cn.com.rebirth.knowledge.commons.dhtmlx.DhtmlxJsonObjectUtils.Cell;
-import cn.com.rebirth.knowledge.commons.dhtmlx.GridType;
-import cn.com.rebirth.knowledge.commons.dhtmlx.annotation.DhtmlColumn;
-import cn.com.rebirth.knowledge.commons.dhtmlx.annotation.Dhtmlx;
-import cn.com.rebirth.knowledge.commons.dhtmlx.annotation.DhtmlxBaseType;
-import cn.com.rebirth.knowledge.commons.dhtmlx.entity.AbstractDhtmlxBaseEntity;
-import cn.com.rebirth.knowledge.commons.dhtmlx.entity.Grid;
-import cn.com.rebirth.knowledge.commons.entity.AbstractBaseEntity;
+import cn.com.rebirth.knowledge.commons.dhtmlx.annotation.*;
+import cn.com.rebirth.knowledge.commons.dhtmlx.entity.*;
+import cn.com.rebirth.knowledge.commons.entity.*;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 
 /**
  * The Class SysGroupEntity.
@@ -82,6 +64,10 @@ public class SysGroupEntity extends AbstractDhtmlxBaseEntity {
 
 	}
 
+	private static enum SysGroupType {
+		COMPANY, AREAGROUP;
+	}
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -5558211588690551358L;
 	//自身的基本属性
@@ -107,6 +93,8 @@ public class SysGroupEntity extends AbstractDhtmlxBaseEntity {
 
 	/** The child sys group. */
 	private List<SysGroupEntity> childSysGroup = Lists.newArrayList();
+
+	private SysGroupType sysGroupType;
 
 	/* (non-Javadoc)
 	 * @see cn.com.rebirth.knowledge.commons.entity.AbstractBaseEntity#isChildTrem()
@@ -339,6 +327,15 @@ public class SysGroupEntity extends AbstractDhtmlxBaseEntity {
 	@Override
 	public Collection<? extends AbstractBaseEntity> getChildObject() {
 		return getChildSysGroup();
+	}
+
+	@Enumerated(EnumType.ORDINAL)
+	public SysGroupType getSysGroupType() {
+		return sysGroupType;
+	}
+
+	public void setSysGroupType(SysGroupType sysGroupType) {
+		this.sysGroupType = sysGroupType;
 	}
 
 }
