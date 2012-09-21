@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2005-2012-9-19 www.china-cti.com
- * Id: CircleCategoryEntity.java,10:31:14
+ * Copyright (c) 2005-2012-9-20 www.china-cti.com
+ * Id: CircleCategoryEntity.java,14:38:59
  * @author wuwei
  */
 package cn.com.rebirth.knowledge.commons.entity.circle;
@@ -143,6 +143,61 @@ public class CircleCategoryEntity extends AbstractDhtmlxBaseEntity {
 	 */
 	public CircleCategoryType getCategoryType() {
 		return categoryType;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.com.rebirth.commons.entity.BaseEntity#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((categoryName == null) ? 0 : categoryName.hashCode());
+		result = prime * result + ((categoryType == null) ? 0 : categoryType.hashCode());
+		result = prime * result + ((parent == null) ? 0 : parent.hashCode());
+		result = prime * result + ((secondCategory == null) ? 0 : secondCategory.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.com.rebirth.commons.entity.BaseEntity#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CircleCategoryEntity other = (CircleCategoryEntity) obj;
+		if (categoryName == null) {
+			if (other.categoryName != null)
+				return false;
+		} else if (!categoryName.equals(other.categoryName))
+			return false;
+		if (categoryType != other.categoryType)
+			return false;
+		if (parent == null) {
+			if (other.parent != null)
+				return false;
+		} else if (!parent.equals(other.parent))
+			return false;
+		if (secondCategory == null) {
+			if (other.secondCategory != null)
+				return false;
+		} else if (!secondCategory.equals(other.secondCategory))
+			return false;
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CircleCategoryEntity [categoryName=" + categoryName + ", secondCategory=" + secondCategory
+				+ ", categoryType=" + categoryType + ", parent=" + parent + "]";
 	}
 
 }
