@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2005-2012-9-19 www.china-cti.com
- * Id: CircleTopicReplyEntity.java,14:17:03
+ * Copyright (c) 2005-2012-9-20 www.china-cti.com
+ * Id: CircleTopicReplyEntity.java,14:39:58
  * @author wuwei
  */
 package cn.com.rebirth.knowledge.commons.entity.circle;
@@ -139,6 +139,61 @@ public class CircleTopicReplyEntity extends AbstractDhtmlxBaseEntity {
 	@Transient
 	public String getContentStr() {
 		return new String(replyContent);
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.com.rebirth.commons.entity.BaseEntity#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((circleTopicEntity == null) ? 0 : circleTopicEntity.hashCode());
+		result = prime * result + Arrays.hashCode(replyContent);
+		result = prime * result + ((replyDate == null) ? 0 : replyDate.hashCode());
+		result = prime * result + ((replyUser == null) ? 0 : replyUser.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.com.rebirth.commons.entity.BaseEntity#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CircleTopicReplyEntity other = (CircleTopicReplyEntity) obj;
+		if (circleTopicEntity == null) {
+			if (other.circleTopicEntity != null)
+				return false;
+		} else if (!circleTopicEntity.equals(other.circleTopicEntity))
+			return false;
+		if (!Arrays.equals(replyContent, other.replyContent))
+			return false;
+		if (replyDate == null) {
+			if (other.replyDate != null)
+				return false;
+		} else if (!replyDate.equals(other.replyDate))
+			return false;
+		if (replyUser == null) {
+			if (other.replyUser != null)
+				return false;
+		} else if (!replyUser.equals(other.replyUser))
+			return false;
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CircleTopicReplyEntity [replyUser=" + replyUser + ", replyDate=" + replyDate + ", circleTopicEntity="
+				+ circleTopicEntity + ", replyContent=" + Arrays.toString(replyContent) + "]";
 	}
 
 }

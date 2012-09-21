@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2005-2012-9-19 www.china-cti.com
- * Id: CircleTopicEntity.java,23:52:26
+ * Copyright (c) 2005-2012-9-20 www.china-cti.com
+ * Id: CircleTopicEntity.java,14:39:43
  * @author wuwei
  */
 package cn.com.rebirth.knowledge.commons.entity.circle;
@@ -8,6 +8,7 @@ package cn.com.rebirth.knowledge.commons.entity.circle;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -75,13 +76,15 @@ public class CircleTopicEntity extends AbstractDhtmlxBaseEntity {
 	private Long replyCount = 0l;
 
 	/** The sticky. 置顶*/
-	private boolean sticky;
+	private boolean sticky = false;
 
 	/** The marrow. 精华*/
-	private boolean marrow;
+	private boolean marrow = false;
 
 	/** The statu. 状态，默认为未审核*/
 	private CircleTopicStatu statu = CircleTopicStatu.UNCHECKED;
+
+	private CircleTopicStatisticalEntity statisticalEntity;
 
 	/* (non-Javadoc)
 	 * @see cn.com.rebirth.knowledge.commons.entity.AbstractBaseEntity#isChildTrem()
@@ -229,7 +232,7 @@ public class CircleTopicEntity extends AbstractDhtmlxBaseEntity {
 	 *
 	 * @return the topic content
 	 */
-	@OneToOne
+	@OneToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "CIRCLE_TOPIC_CONTENT_ID")
 	public CircleTopicContentEntity getTopicContent() {
 		return topicContent;
@@ -297,6 +300,108 @@ public class CircleTopicEntity extends AbstractDhtmlxBaseEntity {
 	 */
 	public void setReplyCount(Long replyCount) {
 		this.replyCount = replyCount;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.com.rebirth.commons.entity.BaseEntity#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((circleEntity == null) ? 0 : circleEntity.hashCode());
+		result = prime * result + ((createDate == null) ? 0 : createDate.hashCode());
+		result = prime * result + ((creater == null) ? 0 : creater.hashCode());
+		result = prime * result + (marrow ? 1231 : 1237);
+		result = prime * result + ((replyCount == null) ? 0 : replyCount.hashCode());
+		result = prime * result + ((statu == null) ? 0 : statu.hashCode());
+		result = prime * result + (sticky ? 1231 : 1237);
+		result = prime * result + ((topicContent == null) ? 0 : topicContent.hashCode());
+		result = prime * result + ((topicName == null) ? 0 : topicName.hashCode());
+		result = prime * result + ((topicReplyEntities == null) ? 0 : topicReplyEntities.hashCode());
+		result = prime * result + ((visitCount == null) ? 0 : visitCount.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.com.rebirth.commons.entity.BaseEntity#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CircleTopicEntity other = (CircleTopicEntity) obj;
+		if (circleEntity == null) {
+			if (other.circleEntity != null)
+				return false;
+		} else if (!circleEntity.equals(other.circleEntity))
+			return false;
+		if (createDate == null) {
+			if (other.createDate != null)
+				return false;
+		} else if (!createDate.equals(other.createDate))
+			return false;
+		if (creater == null) {
+			if (other.creater != null)
+				return false;
+		} else if (!creater.equals(other.creater))
+			return false;
+		if (marrow != other.marrow)
+			return false;
+		if (replyCount == null) {
+			if (other.replyCount != null)
+				return false;
+		} else if (!replyCount.equals(other.replyCount))
+			return false;
+		if (statu != other.statu)
+			return false;
+		if (sticky != other.sticky)
+			return false;
+		if (topicContent == null) {
+			if (other.topicContent != null)
+				return false;
+		} else if (!topicContent.equals(other.topicContent))
+			return false;
+		if (topicName == null) {
+			if (other.topicName != null)
+				return false;
+		} else if (!topicName.equals(other.topicName))
+			return false;
+		if (topicReplyEntities == null) {
+			if (other.topicReplyEntities != null)
+				return false;
+		} else if (!topicReplyEntities.equals(other.topicReplyEntities))
+			return false;
+		if (visitCount == null) {
+			if (other.visitCount != null)
+				return false;
+		} else if (!visitCount.equals(other.visitCount))
+			return false;
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CircleTopicEntity [topicName=" + topicName + ", createDate=" + createDate + ", creater=" + creater
+				+ ", circleEntity=" + circleEntity + ", topicContent=" + topicContent + ", topicReplyEntities="
+				+ topicReplyEntities + ", visitCount=" + visitCount + ", replyCount=" + replyCount + ", sticky="
+				+ sticky + ", marrow=" + marrow + ", statu=" + statu + "]";
+	}
+
+	@OneToOne(mappedBy = "topicEntity")
+	public CircleTopicStatisticalEntity getStatisticalEntity() {
+		return statisticalEntity;
+	}
+
+	public void setStatisticalEntity(CircleTopicStatisticalEntity statisticalEntity) {
+		this.statisticalEntity = statisticalEntity;
 	}
 
 }

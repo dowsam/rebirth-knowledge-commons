@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2005-2012-9-19 www.china-cti.com
- * Id: CircleEntity.java,9:27:11
+ * Copyright (c) 2005-2012-9-20 www.china-cti.com
+ * Id: CircleEntity.java,14:39:19
  * @author wuwei
  */
 package cn.com.rebirth.knowledge.commons.entity.circle;
@@ -318,9 +318,104 @@ public class CircleEntity extends AbstractDhtmlxBaseEntity {
 		this.masterMessage = masterMessage;
 	}
 
+	/**
+	 * Gets the member num.
+	 *
+	 * @return the member num
+	 */
 	@Transient
 	public int getMemberNum() {
 		return memberUser.size() + secondaryMaster.size() + 1;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.com.rebirth.commons.entity.BaseEntity#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((category == null) ? 0 : category.hashCode());
+		result = prime * result + ((circleName == null) ? 0 : circleName.hashCode());
+		result = prime * result + ((circleType == null) ? 0 : circleType.hashCode());
+		result = prime * result + ((createDate == null) ? 0 : createDate.hashCode());
+		result = prime * result + ((master == null) ? 0 : master.hashCode());
+		result = prime * result + ((masterMessage == null) ? 0 : masterMessage.hashCode());
+		result = prime * result + ((memberUser == null) ? 0 : memberUser.hashCode());
+		result = prime * result + ((secCategory == null) ? 0 : secCategory.hashCode());
+		result = prime * result + ((secondaryMaster == null) ? 0 : secondaryMaster.hashCode());
+		result = prime * result + ((statu == null) ? 0 : statu.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.com.rebirth.commons.entity.BaseEntity#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CircleEntity other = (CircleEntity) obj;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		if (circleName == null) {
+			if (other.circleName != null)
+				return false;
+		} else if (!circleName.equals(other.circleName))
+			return false;
+		if (circleType != other.circleType)
+			return false;
+		if (createDate == null) {
+			if (other.createDate != null)
+				return false;
+		} else if (!createDate.equals(other.createDate))
+			return false;
+		if (master == null) {
+			if (other.master != null)
+				return false;
+		} else if (!master.equals(other.master))
+			return false;
+		if (masterMessage == null) {
+			if (other.masterMessage != null)
+				return false;
+		} else if (!masterMessage.equals(other.masterMessage))
+			return false;
+		if (memberUser == null) {
+			if (other.memberUser != null)
+				return false;
+		} else if (!memberUser.equals(other.memberUser))
+			return false;
+		if (secCategory == null) {
+			if (other.secCategory != null)
+				return false;
+		} else if (!secCategory.equals(other.secCategory))
+			return false;
+		if (secondaryMaster == null) {
+			if (other.secondaryMaster != null)
+				return false;
+		} else if (!secondaryMaster.equals(other.secondaryMaster))
+			return false;
+		if (statu != other.statu)
+			return false;
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CircleEntity [circleName=" + circleName + ", createDate=" + createDate + ", master=" + master
+				+ ", secondaryMaster=" + secondaryMaster + ", circleType=" + circleType + ", statu=" + statu
+				+ ", memberUser=" + memberUser + ", category=" + category + ", secCategory=" + secCategory
+				+ ", masterMessage=" + masterMessage + "]";
 	}
 
 }

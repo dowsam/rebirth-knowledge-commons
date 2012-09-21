@@ -1,9 +1,11 @@
 /**
- * Copyright (c) 2005-2012-9-19 www.china-cti.com
- * Id: CircleTopicContentEntity.java,14:07:41
+ * Copyright (c) 2005-2012-9-20 www.china-cti.com
+ * Id: CircleTopicContentEntity.java,14:39:32
  * @author wuwei
  */
 package cn.com.rebirth.knowledge.commons.entity.circle;
+
+import java.util.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -82,6 +84,49 @@ public class CircleTopicContentEntity extends BaseEntity {
 	@Transient
 	public String getContentStr() {
 		return new String(content);
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.com.rebirth.commons.entity.BaseEntity#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((circleTopicEntity == null) ? 0 : circleTopicEntity.hashCode());
+		result = prime * result + Arrays.hashCode(content);
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.com.rebirth.commons.entity.BaseEntity#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CircleTopicContentEntity other = (CircleTopicContentEntity) obj;
+		if (circleTopicEntity == null) {
+			if (other.circleTopicEntity != null)
+				return false;
+		} else if (!circleTopicEntity.equals(other.circleTopicEntity))
+			return false;
+		if (!Arrays.equals(content, other.content))
+			return false;
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CircleTopicContentEntity [circleTopicEntity=" + circleTopicEntity + ", content="
+				+ Arrays.toString(content) + "]";
 	}
 
 }
