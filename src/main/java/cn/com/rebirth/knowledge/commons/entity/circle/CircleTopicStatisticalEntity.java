@@ -8,6 +8,7 @@ package cn.com.rebirth.knowledge.commons.entity.circle;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -37,22 +38,22 @@ public class CircleTopicStatisticalEntity extends BaseEntity {
 	private CircleTopicEntity topicEntity;
 
 	/** The total visit count. */
-	private Long totalVisitCount;
+	private Long totalVisitCount = 0l;
 
 	/** The total reply count. */
-	private Long totalReplyCount;
+	private Long totalReplyCount = 0l;
 
 	/** The week visit count. */
-	private Long weekVisitCount;
+	private Long weekVisitCount = 0l;
 
 	/** The week reply count. */
-	private Long weekReplyCount;
+	private Long weekReplyCount = 0l;
 
 	/** The day visit count. */
-	private Long dayVisitCount;
+	private Long dayVisitCount = 0l;
 
 	/** The day reply count. */
-	private Long dayReplyCount;
+	private Long dayReplyCount = 0l;
 
 	/** The last reply date. */
 	private Date lastReplyDate;
@@ -65,7 +66,7 @@ public class CircleTopicStatisticalEntity extends BaseEntity {
 	 *
 	 * @return the topic entity
 	 */
-	@OneToOne
+	@OneToOne(cascade = { CascadeType.REFRESH })
 	@JoinColumn(name = "CIRCLE_TOPIC_ID")
 	public CircleTopicEntity getTopicEntity() {
 		return topicEntity;

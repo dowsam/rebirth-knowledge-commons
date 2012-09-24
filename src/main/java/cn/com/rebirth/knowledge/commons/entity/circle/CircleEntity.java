@@ -100,6 +100,8 @@ public class CircleEntity extends AbstractDhtmlxBaseEntity {
 	/** The master message.  圈主寄语*/
 	private String masterMessage;
 
+	private CircleStatisticalEntity statisticalEntity;
+
 	/* (non-Javadoc)
 	 * @see cn.com.rebirth.knowledge.commons.entity.AbstractBaseEntity#isChildTrem()
 	 */
@@ -407,15 +409,13 @@ public class CircleEntity extends AbstractDhtmlxBaseEntity {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "CircleEntity [circleName=" + circleName + ", createDate=" + createDate + ", master=" + master
-				+ ", secondaryMaster=" + secondaryMaster + ", circleType=" + circleType + ", statu=" + statu
-				+ ", memberUser=" + memberUser + ", category=" + category + ", secCategory=" + secCategory
-				+ ", masterMessage=" + masterMessage + "]";
+	@OneToOne(mappedBy = "circleEntity")
+	public CircleStatisticalEntity getStatisticalEntity() {
+		return statisticalEntity;
+	}
+
+	public void setStatisticalEntity(CircleStatisticalEntity statisticalEntity) {
+		this.statisticalEntity = statisticalEntity;
 	}
 
 }

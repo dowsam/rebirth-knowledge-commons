@@ -85,7 +85,7 @@ public class CircleTopicVisitEntity extends BaseEntity {
 	 *
 	 * @return the circle topic entity
 	 */
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name = "CIRCLE_TOPIC_ID")
 	public CircleTopicEntity getCircleTopicEntity() {
 		return circleTopicEntity;
@@ -143,12 +143,4 @@ public class CircleTopicVisitEntity extends BaseEntity {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "CircleTopicVisitEntity [visitUser=" + visitUser + ", visitDate=" + visitDate + ", circleTopicEntity="
-				+ circleTopicEntity + "]";
-	}
 }

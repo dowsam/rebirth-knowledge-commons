@@ -86,6 +86,8 @@ public class CircleTopicEntity extends AbstractDhtmlxBaseEntity {
 
 	private CircleTopicStatisticalEntity statisticalEntity;
 
+	private CircleTopicVisitEntity circleTopicVisitEntity;
+
 	/* (non-Javadoc)
 	 * @see cn.com.rebirth.knowledge.commons.entity.AbstractBaseEntity#isChildTrem()
 	 */
@@ -252,7 +254,7 @@ public class CircleTopicEntity extends AbstractDhtmlxBaseEntity {
 	 *
 	 * @return the topic reply entities
 	 */
-	@OneToMany(mappedBy = "circleTopicEntity", fetch = FetchType.LAZY)
+	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "circleTopicEntity", fetch = FetchType.LAZY)
 	public List<CircleTopicReplyEntity> getTopicReplyEntities() {
 		return topicReplyEntities;
 	}
@@ -384,24 +386,22 @@ public class CircleTopicEntity extends AbstractDhtmlxBaseEntity {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "CircleTopicEntity [topicName=" + topicName + ", createDate=" + createDate + ", creater=" + creater
-				+ ", circleEntity=" + circleEntity + ", topicContent=" + topicContent + ", topicReplyEntities="
-				+ topicReplyEntities + ", visitCount=" + visitCount + ", replyCount=" + replyCount + ", sticky="
-				+ sticky + ", marrow=" + marrow + ", statu=" + statu + "]";
-	}
-
-	@OneToOne(mappedBy = "topicEntity")
+	@OneToOne(cascade = { CascadeType.ALL }, mappedBy = "topicEntity")
 	public CircleTopicStatisticalEntity getStatisticalEntity() {
 		return statisticalEntity;
 	}
 
 	public void setStatisticalEntity(CircleTopicStatisticalEntity statisticalEntity) {
 		this.statisticalEntity = statisticalEntity;
+	}
+
+	@OneToOne(mappedBy = "circleTopicEntity")
+	public CircleTopicVisitEntity getCircleTopicVisitEntity() {
+		return circleTopicVisitEntity;
+	}
+
+	public void setCircleTopicVisitEntity(CircleTopicVisitEntity circleTopicVisitEntity) {
+		this.circleTopicVisitEntity = circleTopicVisitEntity;
 	}
 
 }

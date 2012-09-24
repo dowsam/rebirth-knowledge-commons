@@ -120,13 +120,4 @@ public class CircleTopicContentEntity extends BaseEntity {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "CircleTopicContentEntity [circleTopicEntity=" + circleTopicEntity + ", content="
-				+ Arrays.toString(content) + "]";
-	}
-
 }

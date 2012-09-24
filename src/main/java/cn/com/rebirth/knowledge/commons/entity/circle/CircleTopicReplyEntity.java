@@ -187,13 +187,4 @@ public class CircleTopicReplyEntity extends AbstractDhtmlxBaseEntity {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "CircleTopicReplyEntity [replyUser=" + replyUser + ", replyDate=" + replyDate + ", circleTopicEntity="
-				+ circleTopicEntity + ", replyContent=" + Arrays.toString(replyContent) + "]";
-	}
-
 }
