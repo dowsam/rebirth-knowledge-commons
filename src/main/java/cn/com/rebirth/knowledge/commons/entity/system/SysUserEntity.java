@@ -4,40 +4,30 @@
  */
 package cn.com.rebirth.knowledge.commons.entity.system;
 
-import java.util.List;
+import java.util.*;
 
+import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.*;
+import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.*;
 
-import cn.com.rebirth.commons.search.annotation.AbstractSearchProperty;
-import cn.com.rebirth.commons.utils.CollectionMapperUtils;
-import cn.com.rebirth.knowledge.commons.dhtmlx.ColumnDataSets;
+import cn.com.rebirth.commons.search.annotation.*;
+import cn.com.rebirth.commons.utils.*;
+import cn.com.rebirth.knowledge.commons.dhtmlx.*;
 import cn.com.rebirth.knowledge.commons.dhtmlx.ColumnDataSets.CListColumnDataSets;
-import cn.com.rebirth.knowledge.commons.dhtmlx.annotation.DhtmlColumn;
-import cn.com.rebirth.knowledge.commons.dhtmlx.annotation.Dhtmlx;
-import cn.com.rebirth.knowledge.commons.dhtmlx.annotation.DhtmlxBaseType;
-import cn.com.rebirth.knowledge.commons.dhtmlx.data.IColumnConverter;
-import cn.com.rebirth.knowledge.commons.dhtmlx.entity.AbstractDhtmlxBaseEntity;
-import cn.com.rebirth.knowledge.commons.dhtmlx.entity.Grid;
-import cn.com.rebirth.knowledge.commons.dhtmlx.entity.Tree;
+import cn.com.rebirth.knowledge.commons.dhtmlx.annotation.*;
+import cn.com.rebirth.knowledge.commons.dhtmlx.data.*;
+import cn.com.rebirth.knowledge.commons.dhtmlx.entity.*;
+import cn.com.rebirth.knowledge.commons.entity.study.*;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 
 /**
  * The Class SysUserEntity.
@@ -155,6 +145,12 @@ public class SysUserEntity extends AbstractDhtmlxBaseEntity {
 
 	/** The group entities. */
 	private List<SysGroupEntity> groupEntities = Lists.newArrayList();
+
+	private List<TagBelongUserEntity> tagBelongUserEntities = Lists.newArrayList();
+
+	private List<SysUserEntity> attentionUser = Lists.newArrayList();
+
+	private SysUserRealInfoEntity realInfoEntity;
 
 	/**
 	 * Gets the role list name.
@@ -444,6 +440,43 @@ public class SysUserEntity extends AbstractDhtmlxBaseEntity {
 			return converterValue;
 		}
 
+	}
+
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SUBSELECT)
+	@JoinColumn(name = "sys_user")
+	public List<TagBelongUserEntity> getTagBelongUserEntities() {
+		return tagBelongUserEntities;
+	}
+
+	public void setTagBelongUserEntities(List<TagBelongUserEntity> tagBelongUserEntities) {
+		this.tagBelongUserEntities = tagBelongUserEntities;
+	}
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	// 中间表定义,表名采用默认命名规则
+	@JoinTable(name = "SYS_USER_ATTENTION", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "ATTENTIONED_USER_ID") })
+	// Fecth策略定义
+	@Fetch(FetchMode.SUBSELECT)
+	// 集合按id排序.
+	@OrderBy("id desc")
+	// 集合中对象id的缓存.
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	public List<SysUserEntity> getAttentionUser() {
+		return attentionUser;
+	}
+
+	public void setAttentionUser(List<SysUserEntity> attentionUser) {
+		this.attentionUser = attentionUser;
+	}
+
+	@OneToOne(mappedBy = "sysUserEntity")
+	public SysUserRealInfoEntity getRealInfoEntity() {
+		return realInfoEntity;
+	}
+
+	public void setRealInfoEntity(SysUserRealInfoEntity realInfoEntity) {
+		this.realInfoEntity = realInfoEntity;
 	}
 
 }
