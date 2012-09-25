@@ -101,4 +101,8 @@ public @interface Dhtmlx {
 	 * @return true, if successful
 	 */
 	boolean enableUndoRedo() default true;
+
+	boolean enableSearchBar() default true;
+
+	String onRowDblClicked() default "";
 }

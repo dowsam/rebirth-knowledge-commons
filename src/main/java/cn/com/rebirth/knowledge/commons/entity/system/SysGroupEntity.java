@@ -37,7 +37,7 @@ import com.google.common.collect.*;
 @DynamicUpdate
 @Table(name = "SYS_GROUP")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Dhtmlx(createCheckAllColumn = false, dataType = "xml", gridType = GridType.dhtmlxTreeGrid, isPage = false, isDataProcessor = true, parentClass = SysRoleEntity.class,enableSearchBar=false)
+@Dhtmlx(createCheckAllColumn = false, dataType = "xml", gridType = GridType.dhtmlxTreeGrid, isPage = false, isDataProcessor = true, parentClass = SysRoleEntity.class)
 public class SysGroupEntity extends AbstractDhtmlxBaseEntity {
 
 	/**

@@ -10,6 +10,7 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
+import cn.com.rebirth.commons.exception.RebirthIllegalArgumentException;
 import cn.com.rebirth.commons.utils.ConvertUtils;
 
 /**
@@ -198,6 +199,8 @@ public class ParamsExpression {
 
 		/** The eq. */
 		EQ,
+		/** The noteq. */
+		NOTEQ,
 		/** The like. */
 		LIKE,
 		/** The likestart. */
@@ -208,6 +211,8 @@ public class ParamsExpression {
 		LIKEANYWHERE,
 		/** The likeexact. */
 		LIKEEXACT,
+		/** The notlike. */
+		NOTLIKE,
 		/** The lt. */
 		LT,
 		/** The gt. */
@@ -241,14 +246,22 @@ public class ParamsExpression {
 		S(String.class),
 		/** The i. */
 		I(Integer.class),
+		/** The i. */
+		i(int.class),
 		/** The l. */
 		L(Long.class),
+		/** The l. */
+		l(long.class),
 		/** The n. */
 		N(Double.class),
+		/** The n. */
+		n(double.class),
 		/** The d. */
 		D(Date.class),
 		/** The b. */
-		B(Boolean.class);
+		B(Boolean.class),
+		/** The b. */
+		b(boolean.class);
 
 		/** The clazz. */
 		private Class<?> clazz;
@@ -269,6 +282,23 @@ public class ParamsExpression {
 		 */
 		public Class<?> getValue() {
 			return clazz;
+		}
+
+		/**
+		 * Resolve.
+		 *
+		 * @param clazz the clazz
+		 * @return the property type
+		 */
+		public static PropertyType resolve(Class<?> clazz) {
+			PropertyType[] propertyTypes = PropertyType.class.getEnumConstants();
+			for (PropertyType propertyType : propertyTypes) {
+
+				if (propertyType.getValue().equals(clazz)) {
+					return propertyType;
+				}
+			}
+			throw new RebirthIllegalArgumentException("Not find class enum:" + clazz);
 		}
 	}
 

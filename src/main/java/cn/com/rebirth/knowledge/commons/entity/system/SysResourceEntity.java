@@ -57,7 +57,7 @@ import com.google.common.collect.Lists;
 @DynamicUpdate
 @Table(name = "SYS_RESOURCES")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Dhtmlx(createCheckAllColumn = false, dataType = "xml", gridType = GridType.dhtmlxTreeGrid, isPage = false, isDataProcessor = true)
+@Dhtmlx(createCheckAllColumn = false, dataType = "xml", gridType = GridType.dhtmlxTreeGrid, isPage = false, isDataProcessor = true, enableSearchBar = false)
 public class SysResourceEntity extends AbstractDhtmlxBaseEntity {
 	public static final String RESOURCE_PARAM = "_resource_id";
 	/** The Constant serialVersionUID. */

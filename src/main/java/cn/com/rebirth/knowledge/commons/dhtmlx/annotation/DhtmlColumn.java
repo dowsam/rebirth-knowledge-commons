@@ -125,4 +125,6 @@ public @interface DhtmlColumn {
 	Class<? extends ColumnDataSets> columnDataSets() default ColumnDataSets.class;
 
 	boolean group() default false;
+
+	boolean enableSearch() default true;
 }

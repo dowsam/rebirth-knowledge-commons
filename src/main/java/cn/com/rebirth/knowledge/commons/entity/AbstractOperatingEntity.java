@@ -10,8 +10,11 @@ import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 
+import cn.com.rebirth.knowledge.commons.dhtmlx.annotation.DhtmlColumn;
+import cn.com.rebirth.knowledge.commons.dhtmlx.annotation.DhtmlxBaseType;
 import cn.com.rebirth.knowledge.commons.dhtmlx.entity.AbstractDhtmlxBaseEntity;
 import cn.com.rebirth.knowledge.commons.entity.listener.OperatingEntityListener;
+import cn.com.rebirth.knowledge.commons.entity.system.AbstractLogBaseEntity.CreateTimeColumnConverter;
 
 /**
  * The Class AbstractOperatingEntity.
@@ -42,6 +45,7 @@ public abstract class AbstractOperatingEntity extends AbstractDhtmlxBaseEntity {
 	 * @return the creates the time
 	 */
 	@Column(updatable = false)
+	@DhtmlColumn(columnIndex = 2, headerName = "创建时间", columnConverter = CreateTimeColumnConverter.class, coulumnType = DhtmlxBaseType.RO)
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -61,6 +65,7 @@ public abstract class AbstractOperatingEntity extends AbstractDhtmlxBaseEntity {
 	 * @return the creates the by
 	 */
 	@Column(updatable = false)
+	@DhtmlColumn(columnIndex = 1, headerName = "创建人", coulumnType = DhtmlxBaseType.RO)
 	public String getCreateBy() {
 		return createBy;
 	}
@@ -80,11 +85,12 @@ public abstract class AbstractOperatingEntity extends AbstractDhtmlxBaseEntity {
 	 * @return the last modify time
 	 */
 	@Column(insertable = false)
+	@DhtmlColumn(columnIndex = 4, headerName = "修改时间", columnConverter = CreateTimeColumnConverter.class, coulumnType = DhtmlxBaseType.RO)
 	public Date getLastModifyTime() {
 		return lastModifyTime;
 	}
 
-	/**
+	/**	
 	 * Sets the last modify time.
 	 *
 	 * @param lastModifyTime the new last modify time
@@ -99,6 +105,7 @@ public abstract class AbstractOperatingEntity extends AbstractDhtmlxBaseEntity {
 	 * @return the last modify by
 	 */
 	@Column(insertable = false)
+	@DhtmlColumn(columnIndex = 3, headerName = "修改人", coulumnType = DhtmlxBaseType.RO)
 	public String getLastModifyBy() {
 		return lastModifyBy;
 	}

@@ -4,12 +4,14 @@
  */
 package cn.com.rebirth.knowledge.commons.security;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.apache.shiro.util.ClassUtils;
 import org.apache.shiro.web.filter.PathMatchingFilter;
 import org.apache.shiro.web.filter.mgt.FilterChainManager;
 import org.apache.shiro.web.filter.mgt.FilterChainResolver;
@@ -27,6 +29,27 @@ import cn.com.rebirth.core.security.DefinitionSourceShiroFilterFactoryBean;
  */
 public class DefinitionSourceShiroFilterFactoryBeanExt extends DefinitionSourceShiroFilterFactoryBean {
 
+	/** The target class. */
+	private Class<? extends AbstractShiroFilter> targetClass;
+
+	/**
+	 * New instance.
+	 *
+	 * @param abstractShiroFilter the abstract shiro filter
+	 * @return the abstract shiro filter
+	 * @throws IllegalArgumentException the illegal argument exception
+	 * @throws InstantiationException the instantiation exception
+	 * @throws IllegalAccessException the illegal access exception
+	 * @throws InvocationTargetException the invocation target exception
+	 */
+	public AbstractShiroFilter newInstance(AbstractShiroFilter abstractShiroFilter) throws IllegalArgumentException,
+			InstantiationException, IllegalAccessException, InvocationTargetException {
+		if (targetClass == null)
+			return abstractShiroFilter;
+		return (AbstractShiroFilter) ClassUtils.getConstructor(targetClass, AbstractShiroFilter.class).newInstance(
+				abstractShiroFilter);
+	}
+
 	/* (non-Javadoc)
 	 * @see org.apache.shiro.spring.web.ShiroFilterFactoryBean#createInstance()
 	 */
@@ -40,7 +63,11 @@ public class DefinitionSourceShiroFilterFactoryBeanExt extends DefinitionSourceS
 		chainResolverExt.setPathMatcher(new RebirthPatternMatcher());
 		chainResolverExt.setFilterChainManager(pathMatchingFilterChainResolver.getFilterChainManager());
 		abstractShiroFilter.setFilterChainResolver(chainResolverExt);
-		return abstractShiroFilter;
+		//		SessionManager sessionManager = ((SessionsSecurityManager) abstractShiroFilter.getSecurityManager())
+		//				.getSessionManager();
+		//		((DefaultWebSessionManager) sessionManager).getSessionIdCookie().setName(
+		//				DefinitionSourceShiroFilterFactoryBeanExt.class.getSimpleName());
+		return newInstance(abstractShiroFilter);
 	}
 
 	/**
@@ -70,6 +97,8 @@ public class DefinitionSourceShiroFilterFactoryBeanExt extends DefinitionSourceS
 
 		/** The path matching filter. */
 		private final PathMatchingFilter pathMatchingFilter;
+
+		/** The rebirth pattern matcher. */
 		private RebirthPatternMatcher rebirthPatternMatcher = new RebirthPatternMatcher();
 
 		/**
@@ -146,6 +175,15 @@ public class DefinitionSourceShiroFilterFactoryBeanExt extends DefinitionSourceS
 			return super.getPathWithinApplication(request) + "![" + WebUtils.toHttp(request).getMethod() + "]";
 		}
 
+	}
+
+	/**
+	 * Sets the target class.
+	 *
+	 * @param targetClass the new target class
+	 */
+	public void setTargetClass(Class<? extends AbstractShiroFilter> targetClass) {
+		this.targetClass = targetClass;
 	}
 
 }

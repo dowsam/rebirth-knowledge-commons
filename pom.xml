@@ -130,6 +130,11 @@
 			<artifactId>hibernate-ehcache</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 	<build>

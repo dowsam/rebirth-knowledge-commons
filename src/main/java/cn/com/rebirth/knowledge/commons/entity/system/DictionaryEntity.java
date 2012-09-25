@@ -37,6 +37,25 @@ public class DictionaryEntity extends BaseEntity {
 	private String value;//字典值
 
 	/**
+	 * Instantiates a new dictionary entity.
+	 */
+	public DictionaryEntity() {
+		super();
+	}
+
+	/**
+	 * Instantiates a new dictionary entity.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 */
+	public DictionaryEntity(String key, String value) {
+		super();
+		this.key = key;
+		this.value = value;
+	}
+
+	/**
 	 * Gets the key.
 	 *
 	 * @return the key

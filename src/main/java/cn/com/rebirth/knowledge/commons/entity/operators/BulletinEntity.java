@@ -4,6 +4,8 @@
  */
 package cn.com.rebirth.knowledge.commons.entity.operators;
 
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorSupport;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -21,9 +23,15 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.web.util.HtmlUtils;
 
+import cn.com.rebirth.knowledge.commons.dhtmlx.annotation.DhtmlColumn;
+import cn.com.rebirth.knowledge.commons.dhtmlx.annotation.Dhtmlx;
+import cn.com.rebirth.knowledge.commons.dhtmlx.annotation.DhtmlxBaseType;
 import cn.com.rebirth.knowledge.commons.entity.AbstractOperatingEntity;
 import cn.com.rebirth.knowledge.commons.entity.system.DictionaryEntity;
+import cn.com.rebirth.knowledge.commons.entity.system.SysPageButtonEntity;
+import cn.com.rebirth.knowledge.commons.entity.system.SysPageButtonEntity.ButtonEventType;
 
 /**
  * 公告.
@@ -35,7 +43,25 @@ import cn.com.rebirth.knowledge.commons.entity.system.DictionaryEntity;
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Dhtmlx(createCheckAllColumn = true, isDataProcessor = false, isPage = true, onRowDblClicked = "BulletinEntity_RowDblClicked")
 public class BulletinEntity extends AbstractOperatingEntity {
+
+	/** The Constant add. */
+	public static final SysPageButtonEntity add = new SysPageButtonEntity();
+	public static final SysPageButtonEntity delete = new SysPageButtonEntity();
+	static {
+		add.setButtonId("BulletinEntity_add");
+		add.setEventFun("BulletinEntity_add();");
+		add.setEventName(ButtonEventType.onClick);
+		add.setName("新增公告");
+		add.setImagePath("/images/icon/icon_new.gif");
+
+		delete.setButtonId("BulletinEntity_delete");
+		delete.setEventFun("BulletinEntity_delete();");
+		delete.setEventName(ButtonEventType.onClick);
+		delete.setName("删除公告");
+		delete.setImagePath("/images/icon/trash.gif");
+	}
 
 	/**
 	 * 公告的状态.
@@ -45,15 +71,54 @@ public class BulletinEntity extends AbstractOperatingEntity {
 	public static enum BulletinStatus {
 
 		/** 提交. */
-		commit(),
+		commit("提交"),
 		/** 保存. */
-		save(),
+		save("保存"),
 		/** 删除. */
-		delete(),
+		delete("删除"),
 		/** 过期. */
-		expired(),
+		expired("过期"),
 		/** 未知. */
-		unknown();
+		unknown("未知");
+
+		/** The title. */
+		final String title;
+
+		/**
+		 * Instantiates a new bulletin status.
+		 *
+		 * @param title the title
+		 */
+		BulletinStatus(String title) {
+			this.title = title;
+		}
+
+		/**
+		 * Gets the title.
+		 *
+		 * @return the title
+		 */
+		public String getTitle() {
+			return title;
+		}
+
+	}
+
+	/**
+	 * The Class BulletionDegreePropertyEditor.
+	 *
+	 * @author l.xue.nong
+	 */
+	public static class BulletionDegreePropertyEditor extends PropertyEditorSupport implements PropertyEditor {
+
+		/* (non-Javadoc)
+		 * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
+		 */
+		@Override
+		public void setAsText(String text) throws IllegalArgumentException {
+			super.setValue(BulletionDegree.voist(text));
+		}
+
 	}
 
 	/**
@@ -64,11 +129,48 @@ public class BulletinEntity extends AbstractOperatingEntity {
 	public static enum BulletionDegree {
 
 		/** 紧急. */
-		urgent(),
+		urgent("紧急"),
 		/** 重要. */
-		important(),
+		important("重要"),
 		/** 普通. */
-		ordinary();
+		ordinary("普通");
+
+		/** The title. */
+		final String title;
+
+		/**
+		 * Instantiates a new bulletion degree.
+		 *
+		 * @param name the name
+		 */
+		BulletionDegree(String name) {
+			this.title = name;
+		}
+
+		/**
+		 * Gets the title.
+		 *
+		 * @return the title
+		 */
+		public String getTitle() {
+			return title;
+		}
+
+		/**
+		 * Voist.
+		 *
+		 * @param name the name
+		 * @return the bulletion degree
+		 */
+		public static BulletionDegree voist(String name) {
+			BulletionDegree[] bulletionDegrees = BulletionDegree.class.getEnumConstants();
+			for (BulletionDegree bulletionDegree : bulletionDegrees) {
+				if (bulletionDegree.name().equalsIgnoreCase(name)) {
+					return bulletionDegree;
+				}
+			}
+			return null;
+		}
 	}
 
 	/** The Constant serialVersionUID. */
@@ -98,6 +200,11 @@ public class BulletinEntity extends AbstractOperatingEntity {
 	/* (non-Javadoc)
 	 * @see cn.com.rebirth.knowledge.commons.entity.AbstractBaseEntity#isChildTrem()
 	 */
+	/**
+	 * Checks if is child trem.
+	 *
+	 * @return true, if is child trem
+	 */
 	@Transient
 	@Override
 	public boolean isChildTrem() {
@@ -110,6 +217,7 @@ public class BulletinEntity extends AbstractOperatingEntity {
 	 * @return the title
 	 */
 	@NotBlank
+	@DhtmlColumn(columnIndex = 0, headerName = "标题", coulumnType = DhtmlxBaseType.RO)
 	public String getTitle() {
 		return title;
 	}
@@ -141,6 +249,11 @@ public class BulletinEntity extends AbstractOperatingEntity {
 	 */
 	public void setContent(byte[] content) {
 		this.content = content;
+	}
+
+	@Transient
+	public String getContentToString() {
+		return this.content == null ? "" : HtmlUtils.htmlEscape(new String(this.content));
 	}
 
 	/**

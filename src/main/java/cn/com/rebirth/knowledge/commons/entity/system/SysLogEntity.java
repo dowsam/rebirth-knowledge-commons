@@ -5,6 +5,7 @@
 package cn.com.rebirth.knowledge.commons.entity.system;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
@@ -55,6 +56,9 @@ public class SysLogEntity extends AbstractLogBaseEntity {
 		@Override
 		public Object convert(AbstractSearchProperty property, DhtmlColumn dhtmlColumn,
 				AbstractDhtmlxBaseEntity dhtmlxBaseEntity, Object converterValue) {
+			if (converterValue instanceof String) {
+				return converterValue;
+			}
 			byte[] b = (byte[]) converterValue;
 			return new String(b);
 		}
@@ -68,7 +72,7 @@ public class SysLogEntity extends AbstractLogBaseEntity {
 	protected String requestIp;
 
 	/** The log context. */
-	protected byte[] logContext;
+	protected String logContext;
 
 	/**
 	 * Gets the request ip.
@@ -108,8 +112,9 @@ public class SysLogEntity extends AbstractLogBaseEntity {
 	 */
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
+	@Column(length = 4000)
 	@DhtmlColumn(columnIndex = 0, headerName = "&nbsp;", columnConverter = LogContextColumnConverter.class, sortable = false, coulumnType = DhtmlxBaseType.SUB_ROW, initWidth = 20, coulumnAlign = Align.RIGHT)
-	public byte[] getLogContext() {
+	public String getLogContext() {
 		return logContext;
 	}
 
@@ -118,7 +123,10 @@ public class SysLogEntity extends AbstractLogBaseEntity {
 	 *
 	 * @param logContext the new log context
 	 */
-	public void setLogContext(byte[] logContext) {
+	public void setLogContext(String logContext) {
+		if (logContext != null && logContext.length() > 4000) {
+			logContext = logContext.substring(0, 3999);
+		}
 		this.logContext = logContext;
 	}
 

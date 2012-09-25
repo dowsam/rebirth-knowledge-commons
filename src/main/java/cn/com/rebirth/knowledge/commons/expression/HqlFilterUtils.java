@@ -257,6 +257,9 @@ public class HqlFilterUtils {
 		if (MatchType.EQ.equals(paramsExpression.getMatchType())) {
 			stringBuffer.append("=?");
 			values.add(paramsExpression.getPropertyValue());
+		}else if(MatchType.NOTEQ.equals(paramsExpression.getMatchType())){
+			stringBuffer.append("<>?");
+			values.add(paramsExpression.getPropertyValue());
 		} else if (MatchType.LIKE.equals(paramsExpression.getMatchType())) {
 			stringBuffer.append(" like ?");
 			values.add("%" + paramsExpression.getPropertyValue() + "%");
@@ -274,6 +277,9 @@ public class HqlFilterUtils {
 			values.add(paramsExpression.getPropertyValue());
 		} else if (MatchType.LT.equals(paramsExpression.getMatchType())) {
 			stringBuffer.append("<?");
+			values.add(paramsExpression.getPropertyValue());
+		}else if(MatchType.NOTLIKE.equals(paramsExpression.getMatchType())){
+			stringBuffer.append(" not like ?");
 			values.add(paramsExpression.getPropertyValue());
 		} else if (MatchType.GT.equals(paramsExpression.getMatchType())) {
 			stringBuffer.append(">?");
@@ -316,7 +322,7 @@ public class HqlFilterUtils {
 	 * @param filterPrefix the filter prefix
 	 * @return the map
 	 */
-	private static Map<String, List<ParamsExpression>> buildFiterProperty(HttpServletRequest request,
+	public static Map<String, List<ParamsExpression>> buildFiterProperty(HttpServletRequest request,
 			String filterPrefix) {
 		// new Map存入列表
 		Map<String, List<ParamsExpression>> map = new HashMap<String, List<ParamsExpression>>();
@@ -391,7 +397,7 @@ public class HqlFilterUtils {
 	 * @param filterPrefix the filter prefix
 	 * @return the parameters starting with
 	 */
-	private static Map<String, String[]> getParametersStartingWith(HttpServletRequest request, String filterPrefix) {
+	public static Map<String, String[]> getParametersStartingWith(HttpServletRequest request, String filterPrefix) {
 		Assert.notNull(request, "Request must not be null");
 		Enumeration<?> paramNames = request.getParameterNames();
 		Map<String, String[]> params = new TreeMap<String, String[]>();

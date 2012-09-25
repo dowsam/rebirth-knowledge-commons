@@ -50,7 +50,7 @@ public abstract class AbstractLogBaseEntity extends AbstractDhtmlxBaseEntity {
 				AbstractDhtmlxBaseEntity dhtmlxBaseEntity, Object converterValue) {
 			Date date = (Date) converterValue;
 			if (date == null)
-				return null;
+				return "";
 			return DateUtils.formatDate(date, null);
 		}
 
